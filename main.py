@@ -1,22 +1,25 @@
-# OpenCV program to detect face in real time
-# import libraries of python OpenCV
-# where its functionality resides
-import cv2
+import numpy as np
+import cv2 as cv
+cap = cv.VideoCapture(0)
+if not cap.isOpened():
+ print("Cannot open camera")
+ exit()
+while True:
+ # Capture frame-by-frame
+ ret, frame = cap.read()
+ # if frame is read correctly ret is True
+ if not ret:
+    print("Can't receive frame (stream end?). Exiting ...")
+ # Our operations on the frame come here
+ # Display the resulting frame
 
-cv2.namedWindow("preview")
-vc = cv2.VideoCapture(0)
+ cv.rectangle(frame,(0,0),(255,255),(233,0,255),5)
 
-if vc.isOpened(): # try to get the first frame
-    rval, frame = vc.read()
-else:
-    rval = False
+ cv.imshow('frame', frame)
 
-while rval:
-    cv2.imshow("preview", frame)
-    rval, frame = vc.read()
-    key = cv2.waitKey(20)
-    if key == 27: # exit on ESC
-        break
+ if cv.waitKey(1) == ord('q'):
+    break
+# When everything done, release the capture
+cap.release()
+cv.destroyAllWindows()
 
-vc.release()
-cv2.destroyWindow("preview")
